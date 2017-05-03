@@ -58,9 +58,10 @@
             // 
             // btnCpu
             // 
-            this.btnCpu.Location = new System.Drawing.Point(564, 309);
+            this.btnCpu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCpu.Location = new System.Drawing.Point(562, 274);
             this.btnCpu.Name = "btnCpu";
-            this.btnCpu.Size = new System.Drawing.Size(108, 23);
+            this.btnCpu.Size = new System.Drawing.Size(110, 41);
             this.btnCpu.TabIndex = 1;
             this.btnCpu.Text = "CPU (ON)";
             this.btnCpu.UseVisualStyleBackColor = true;
@@ -68,9 +69,10 @@
             // 
             // btnMemory
             // 
-            this.btnMemory.Location = new System.Drawing.Point(564, 338);
+            this.btnMemory.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMemory.Location = new System.Drawing.Point(562, 321);
             this.btnMemory.Name = "btnMemory";
-            this.btnMemory.Size = new System.Drawing.Size(108, 23);
+            this.btnMemory.Size = new System.Drawing.Size(110, 41);
             this.btnMemory.TabIndex = 2;
             this.btnMemory.Text = "MEMORY (OFF)";
             this.btnMemory.UseVisualStyleBackColor = true;
@@ -78,9 +80,10 @@
             // 
             // btnDisk
             // 
-            this.btnDisk.Location = new System.Drawing.Point(564, 367);
+            this.btnDisk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDisk.Location = new System.Drawing.Point(562, 368);
             this.btnDisk.Name = "btnDisk";
-            this.btnDisk.Size = new System.Drawing.Size(108, 23);
+            this.btnDisk.Size = new System.Drawing.Size(110, 41);
             this.btnDisk.TabIndex = 3;
             this.btnDisk.Text = "DISK (OFF)";
             this.btnDisk.UseVisualStyleBackColor = true;
@@ -88,9 +91,10 @@
             // 
             // btnPauseResume
             // 
-            this.btnPauseResume.Location = new System.Drawing.Point(564, 215);
+            this.btnPauseResume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPauseResume.Location = new System.Drawing.Point(562, 205);
             this.btnPauseResume.Name = "btnPauseResume";
-            this.btnPauseResume.Size = new System.Drawing.Size(108, 23);
+            this.btnPauseResume.Size = new System.Drawing.Size(110, 38);
             this.btnPauseResume.TabIndex = 4;
             this.btnPauseResume.Text = "PAUSE ||";
             this.btnPauseResume.UseVisualStyleBackColor = true;

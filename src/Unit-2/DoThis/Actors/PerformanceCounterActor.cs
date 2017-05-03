@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using Akka.Actor;
 
 namespace ChartApp.Actors
 {
-    public class PerformanceCounterActor: UntypedActor
+    /// <summary>
+    /// Actor responsible for monitoring a specific <see cref="PerformanceCounter"/>
+    /// </summary>
+    public class PerformanceCounterActor : UntypedActor
     {
-        private string _seriesName;
-        private Func<PerformanceCounter> _performanceCounterGenerator;
-        private HashSet<IActorRef> _subscriptions;
-        private Cancelable _cancelPublishing;
+        private readonly string _seriesName;
+        private readonly Func<PerformanceCounter> _performanceCounterGenerator;
         private PerformanceCounter _counter;
 
-        public PerformanceCounterActor(string seriesName,
-            Func<PerformanceCounter> performanceCounterGenerator)
+        private readonly HashSet<IActorRef> _subscriptions;
+        private readonly ICancelable _cancelPublishing;
+
+        public PerformanceCounterActor(string seriesName, Func<PerformanceCounter> performanceCounterGenerator)
         {
             _seriesName = seriesName;
             _performanceCounterGenerator = performanceCounterGenerator;
@@ -25,17 +26,14 @@ namespace ChartApp.Actors
             _cancelPublishing = new Cancelable(Context.System.Scheduler);
         }
 
+        #region Actor lifecycle methods
+
         protected override void PreStart()
         {
             //create a new instance of the performance counter
             _counter = _performanceCounterGenerator();
-            Context.System.Scheduler.ScheduleTellRepeatedly(
-                TimeSpan.FromMilliseconds(250),
-                TimeSpan.FromMilliseconds(33),
-                Self,
-                new GatherMetrics(),
-                Self,
-                _cancelPublishing);
+            Context.System.Scheduler.ScheduleTellRepeatedly(TimeSpan.FromMilliseconds(250), TimeSpan.FromMilliseconds(250), Self,
+                 new GatherMetrics(), Self, _cancelPublishing);
         }
 
         protected override void PostStop()
@@ -46,15 +44,17 @@ namespace ChartApp.Actors
                 _cancelPublishing.Cancel(false);
                 _counter.Dispose();
             }
-            catch
+            catch 
             {
                 //don't care about additional "ObjectDisposed" exceptions
             }
             finally
             {
-                base.PostStop();
+                base.PostStop();    
             }
         }
+
+        #endregion
 
         protected override void OnReceive(object message)
         {
@@ -62,7 +62,7 @@ namespace ChartApp.Actors
             {
                 //publish latest counter value to all subscribers
                 var metric = new Metric(_seriesName, _counter.NextValue());
-                foreach (var sub in _subscriptions)
+                foreach(var sub in _subscriptions)
                     sub.Tell(metric);
             }
             else if (message is SubscribeCounter)
